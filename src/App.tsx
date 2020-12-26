@@ -1,4 +1,10 @@
-import { useListener, trigger, log, useEffectAtMount } from "polyrhythm-react";
+import {
+  after,
+  useListener,
+  trigger,
+  log,
+  useEffectAtMount
+} from "polyrhythm-react";
 import React, { useState } from "react";
 import { of, interval } from "rxjs";
 import { map } from "rxjs/operators";
@@ -12,9 +18,9 @@ const TRANSITIONS = {
 };
 
 const COLORS = {
-  off: of("off"), // a "lifted" value
-  white: of("white"),
-  rainbow: of("rainbow"),
+  off: Promise.resolve("off"), // Interchangable with the following
+  white: after(2000, "white"), // convenient delay
+  rainbow: of("rainbow"), // next('rainbow'); complete();
   alternating: interval(2000).pipe(map((i) => (i % 2 ? "rainbow" : "white")))
 };
 

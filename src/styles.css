@@ -1,0 +1,84 @@
+html {
+  background-color: hsl(120, 30%, 70%);
+}
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+#atts {
+  margin-top: 1rem;
+  margin-left: 10vw;
+}
+#switch {
+  border-radius: 0.2rem;
+  border: 1px solid white;
+  background-color: green;
+  color: white;
+  font-size: larger;
+  margin-bottom: 1rem;
+}
+
+.light {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  transition: background-color 0.5s, box-shadow 1s;
+}
+
+.light-string {
+  display: flex;
+  justify-content: space-around;
+}
+
+.tree {
+  height: 30vh;
+  background-image: url("https://www.flaticon.com/svg/static/icons/svg/3498/3498246.svg");
+  background-size: 30vh;
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin: auto;
+  position: relative;
+}
+
+.light {
+  position: relative;
+}
+
+.top {
+  top: 10vh;
+  margin: auto;
+}
+.bottom {
+  position: relative;
+  top: 12vh;
+  margin: auto;
+}
+.bottom .light {
+  display: inline-block;
+  margin: 0.5rem;
+}
+
+.light.white {
+  background-color: hsl(0, 50%, 100%);
+  box-shadow: 0px 0px 15px 3px hsl(0, 50%, 100%);
+}
+
+.off {
+  background-color: hsl(120, 100%, 10%);
+}
+
+.rainbow.red {
+  background-color: hsl(0, 100%, 50%);
+  box-shadow: 0px 0px 15px 3px hsl(0, 50%, 50%);
+}
+
+.rainbow.green {
+  background-color: hsl(120, 100%, 50%);
+  box-shadow: 0px 0px 15px 3px hsl(120, 50%, 50%);
+}
+
+.rainbow.blue {
+  background-color: hsl(240, 100%, 50%);
+  box-shadow: 0px 0px 15px 3px hsl(240, 50%, 50%);
+}

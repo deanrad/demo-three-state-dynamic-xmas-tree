@@ -6,7 +6,7 @@ import {
   useEffectAtMount
 } from "polyrhythm-react";
 import React, { useState } from "react";
-import { of, interval } from "rxjs";
+import { concat, of, interval } from "rxjs";
 import { map } from "rxjs/operators";
 import "./styles.css";
 
@@ -17,11 +17,15 @@ const TRANSITIONS = {
   alternating: "off"
 };
 
+const CYCLE_TIME = 2000;
 const COLORS = {
   off: Promise.resolve("off"), // Interchangable with the following
   white: after(2000, "white"), // convenient delay
   rainbow: of("rainbow"), // next('rainbow'); complete();
-  alternating: interval(2000).pipe(map((i) => (i % 2 ? "rainbow" : "white")))
+  alternating: concat(
+    after(0, "white"),
+    interval(CYCLE_TIME).pipe(map((i) => (i % 2 ? "white" : "rainbow")))
+  )
 };
 
 const ADVANCE_MODE = "mode/advance";

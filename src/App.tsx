@@ -6,19 +6,35 @@ import {
   useEffectAtMount,
 } from "polyrhythm-react";
 import React, { useState } from "react";
-import { concat, of, interval } from "rxjs";
+import {
+  concat,
+  of,
+  interval,
+  Observable,
+  Subscriber,
+  TeardownLogic,
+} from "rxjs";
 import { map } from "rxjs/operators";
 import "./styles.css";
 
-const TRANSITIONS = {
+const TRANSITIONS: Record<string, string> = {
   off: "white",
   white: "rainbow",
   rainbow: "alternating",
   alternating: "off",
 };
 
+interface PromiseFactory<T> {
+  (): Promise<T>;
+}
+interface ObservableConstructorFn<T> {
+  (notify: Subscriber<T>): TeardownLogic;
+}
+
+type EffectDescriptor<T> = Promise<T> | Observable<T>;
+
 const CYCLE_TIME = 2000;
-const COLORS = {
+const COLOR_BEHAVIORS: Record<string, EffectDescriptor<any>> = {
   off: Promise.resolve("off"), // Interchangable with the following
   white: after(CYCLE_TIME, "white"), // after: provides a delayed value via Promise/Observable
   rainbow: of("rainbow"), // next('rainbow'); complete();
@@ -48,14 +64,16 @@ export default function App() {
       setAtts({ mode: newMode });
     }
   );
-  useListener(SET_COLOR, ({ payload: color }) => setAtts({ color }));
+  useListener(SET_COLOR, ({ payload: color }: { payload: string }) =>
+    setAtts({ color })
+  );
 
   // Look - Closes over no React state, or state changer functions!
   useListener(
     ADVANCE_MODE,
-    ({ payload: { from } }) => {
+    ({ payload: { from } }: { payload: { from: string } }) => {
       const newMode = TRANSITIONS[from];
-      const colorBehavior = COLORS[newMode];
+      const colorBehavior = COLOR_BEHAVIORS[newMode];
       return colorBehavior;
     },
     {
